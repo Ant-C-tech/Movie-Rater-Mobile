@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { API } from '../api/index';
 
-export default function Main() {
+import { MovieList } from '../components/MovieList';
+
+export const Main = () => {
   const [movies, setMovies] = useState([]);
 
   const storeMovies = async () => {
@@ -22,22 +24,21 @@ export default function Main() {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={movies}
-        renderItem={({ item }) => {
-          return <Text key={item.id}>{item.title}</Text>;
-        }}
-      ></FlatList>
+      <Text style={styles.movieListTitle}>Movie List</Text>
+      <MovieList movies={movies} />
       <StatusBar style='auto' />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  movieListTitle: {
+    margin: 10,
+    paddingBottom: 10,
+    fontSize: 24,
+    color: 'white',
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#48c78e',
   },
 });
