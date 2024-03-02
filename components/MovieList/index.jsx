@@ -1,7 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export const MovieList = ({ movies }) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.movieListWrapper}>
       <FlatList
@@ -9,14 +17,19 @@ export const MovieList = ({ movies }) => {
         data={movies}
         renderItem={({ item }) => {
           return (
-            <View style={styles.movieListItem}>
-              <Text style={styles.movieListItemContent}>{item.title}</Text>
-            </View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Movie', { movie: item });
+              }}
+            >
+              <View style={styles.movieListItem}>
+                <Text style={styles.movieListItemContent}>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
           );
         }}
         keyExtractor={(item) => item.id.toString()}
       ></FlatList>
-      <StatusBar style='auto' />
     </View>
   );
 };

@@ -1,8 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, Animated } from 'react-native';
-import { Main } from './pages/Main';
+import { Movies } from './pages/Movies';
+import { Movie } from './pages/Movie';
 import { FontAwesome } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const rotation = useRef(new Animated.Value(0)).current;
@@ -11,7 +15,7 @@ export default function App() {
     Animated.loop(
       Animated.timing(rotation, {
         toValue: 1,
-        duration: 2000,
+        duration: 10000,
         useNativeDriver: false,
       }),
     ).start();
@@ -19,32 +23,35 @@ export default function App() {
 
   const rotationAnimation = rotation.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'],
+    outputRange: ['0deg', '1080deg'],
   });
 
   return (
     <View style={styles.app}>
       <Text style={styles.appTitle}>
-        Movie{' '}
+        Movie{'   '}
         <Animated.View
           style={{
-            transform: [
-              { translateX: 0 },
-              { translateY: -8 },
-              { rotate: rotationAnimation },
-              { translateX: -17 },
-              { translateY: -8 },
-            ],
+            width: 36,
+            height: 36,
+            justifyContent: 'center',
+            alignItems: 'center',
+            transform: [{ rotate: rotationAnimation }],
           }}
         >
           <FontAwesome style={styles.appTitleLogo} name='film' />
-        </Animated.View>{' '}
+        </Animated.View>
+        {'   '}
         Rater
       </Text>
       <View style={styles.appContent}>
-        <Main />
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='Movies' component={Movies} />
+            <Stack.Screen name='Movie' component={Movie} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </View>
-      <StatusBar style='auto' />
     </View>
   );
 }
@@ -57,22 +64,21 @@ const styles = StyleSheet.create({
   },
   appTitle: {
     marginBottom: 10,
-    fontSize: 32,
+    fontSize: 36,
     color: 'white',
     textAlign: 'center',
   },
   appTitleLogo: {
-    fontSize: 32,
+    fontSize: 36,
     color: '#48c78e',
   },
   appContent: {
-    position: 'relative',
-    height: '90vh',
-    maxHeight: '90vh',
+    flex: 1,
     backgroundColor: 'inherit',
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: '#48c78e',
     borderRadius: 5,
+    overflow: 'hidden',
   },
 });
