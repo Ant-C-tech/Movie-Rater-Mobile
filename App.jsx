@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   appTitleLogo: {
-    fontSize: 36,
+    fontSize: 32,
     color: '#48c78e',
   },
   appContent: {
